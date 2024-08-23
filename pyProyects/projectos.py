@@ -1,14 +1,13 @@
 import subprocess
 import os
 
-# Define el directorio donde están los proyectos
 directorio_proyectos = 'C:/Users/admin/Desktop/ProyectosProgra/pyProyects/'
 
 def ejecutar_proyecto(opcion):
     comandos = {
         1: 'calculadora_simple.py',
         2: 'numeros_primos.py',
-        3: 'proyecto3.py',
+        3: 'palindromo.py',
         4: 'proyecto4.py',
         5: 'proyecto5.py',
         6: 'proyecto6.py',
@@ -21,8 +20,7 @@ def ejecutar_proyecto(opcion):
     archivo = comandos.get(opcion)
     if archivo:
         ruta_completa = os.path.join(directorio_proyectos, archivo)
-        print(f"Ejecutando archivo: {ruta_completa}")  # Depuración
-        # Ejecuta el archivo Python directamente en la misma terminal
+        print(f"Ejecutando archivo: {ruta_completa}") 
         subprocess.run(['python', ruta_completa])
     else:
         print("Opción no válida. Por favor, elige un número del 1 al 10.")
@@ -32,7 +30,7 @@ def mostrar_opciones():
     print("""
         1: calculadora_simple.py
         2: numeros_primos.py
-        3: proyecto3.py
+        3: palindromo.py
         4: proyecto4.py
         5: proyecto5.py
         6: proyecto6.py
