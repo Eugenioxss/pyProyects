@@ -8,7 +8,7 @@ Recurso: Terminal."""
 
 import math
 
-def es_primo(n):
+def checkPrime(n):
     if n <= 1:
         return False
     for i in range(2, int(math.sqrt(n)) + 1):
@@ -17,8 +17,8 @@ def es_primo(n):
     return True
 
 # Ejemplo de uso
-numero = int(input("Introduce un número para verificar si es primo: "))
-if es_primo(numero):
-    print(f"{numero} es un número primo.")
+primo = int(input("Introduce un número para verificar si es primo: "))
+if checkPrime(primo):
+    print(f"{primo} es un número primo.")
 else:
-    print(f"{numero} no es un número primo.")
+    print(f"{primo} no es un número primo.")

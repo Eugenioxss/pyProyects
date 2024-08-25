@@ -1,0 +1,5 @@
+print("Introduce la cantidad de salarios mínimos")
+cantidadSalarios=int(input())
+print("Introduce la cuánto es el salario mínimo")
+montoSalarios=int(input())
+print("tu multa es de:", cantidadSalarios*montoSalarios)

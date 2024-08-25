@@ -1,0 +1,7 @@
+print("Introduce el costo el metro cuadrado de alfombra")
+costoMetro=float(input())
+print("Introduce el largo de la habitación")
+largoHab=float(input())
+print("Introduce el ancho de la habitación")
+anchoHab=float(input())
+print("El costo de la alfombra es:", (costoMetro*largoHab*anchoHab)+150)
