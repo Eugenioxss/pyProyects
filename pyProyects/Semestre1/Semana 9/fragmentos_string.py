@@ -1,0 +1,5 @@
+entrada=input("Escribe texto")
+print(len(entrada))
+print(entrada[0])
+print(entrada[-1])
+print(entrada[1::2])
