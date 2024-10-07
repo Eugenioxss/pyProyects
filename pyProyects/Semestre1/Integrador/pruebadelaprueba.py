@@ -2,6 +2,7 @@
 import math as math
 import turtle
 import random
+import time
 
 def paint_begin(tam,screen):
 
@@ -24,11 +25,11 @@ def paint_begin(tam,screen):
 
     screen.update()
 
-    strcasi=turtle.textinput("Numero de Casillas", "Easy, Normal or Hard? ")
+    strcasi=turtle.textinput("Numero de Casillas", "Easy(4x4), Normal(6x6) or Hard(8x8)? (type the word)")
     strcasi=strcasi.replace(" ","").lower()
 
     while strcasi is None or strcasi not in ("easy","normal","hard"):
-        strcasi=turtle.textinput("Numero de Casillas", "Easy, Normal or Hard? ")
+        strcasi=turtle.textinput("Numero de Casillas", "Easy(4x4), Normal(6x6) or Hard(8x8)? (type the word)")
         if strcasi is None:
             turtle.bye()
 
@@ -149,49 +150,74 @@ def create_matrix(ncasi):
 
     return memoramation
 
-def turnone(screen, name1, turtlename1, dist_from_y_bellow, tam, ncasi, anchlarg_casi, memoramation, leftpairs):
+def turnone(screen, name1, dist_from_y_bellow, tam, ncasi, anchlarg_casi, memoramation, leftpairs,pairsone):
+    modifyname1=turtle.Turtle()
+    modifyname1.hideturtle()
+    modifyname1.pu()
+
     print("turn one")
-    turtlename1.color("green")
-    turtlename1.goto(-tam//2+(dist_from_y_bellow*1.5),-tam // 2 - dist_from_y_bellow)
-    turtlename1.write(name1, align='left', font=('Arial', 25, 'normal'))
-    turtlename1.color("black")
+    modifyname1.color("green")
+    modifyname1.goto(-tam//2+(dist_from_y_bellow*1.5),-tam // 2 - dist_from_y_bellow)
+    modifyname1.write(name1, align='left', font=('Arial', 25, 'normal'))
+    modifyname1.color("black")
+
+    valuesel1=0
+    valuesel2=0
 
     print(memoramation)
+    stopfrombutton=False
 
-    valuesel1,stopfrombutton,columne1,row1=valuesection1andsection2(screen,tam,anchlarg_casi,turtlename1,memoramation)
-    if stopfrombutton==False:
-        valuesel2,stopfrombutton,columne2,row2=valuesection1andsection2(screen,tam,anchlarg_casi,turtlename1,memoramation)
-        if valuesel1==valuesel2:
-            memoramation[columne1][row1]=0
-            memoramation[columne2][row2]=0
-            leftpairs-=1
-        else:
-            undo_multiple(turtlename1,10)
-    turtlename1.goto(-tam//2+(dist_from_y_bellow*1.5),-tam // 2 - dist_from_y_bellow)
-    turtlename1.write(name1, align='left', font=('Arial', 25, 'normal'))
-    return leftpairs,stopfrombutton
+    while valuesel1==0 and stopfrombutton==False:
+        valuesel1,stopfrombutton,columne1,row1=valuesection1andsection2(screen,tam,anchlarg_casi,modifyname1,memoramation)
+    
+    while valuesel2==0 and stopfrombutton==False:
+            valuesel2,stopfrombutton,columne2,row2=valuesection1andsection2(screen,tam,anchlarg_casi,modifyname1,memoramation)
+            if valuesel1==valuesel2 and valuesel1!=0:
+                memoramation[columne1][row1]=0
+                memoramation[columne2][row2]=0
+                leftpairs-=1
+                pairsone+=1
+            else:
+                time.sleep(1)
+                modifyname1.clear()
+    modifyname1.goto(-tam//2+(dist_from_y_bellow*1.5),-tam // 2 - dist_from_y_bellow)
+    modifyname1.write(name1, align='left', font=('Arial', 25, 'normal'))
+    return leftpairs,stopfrombutton,pairsone
 
-def turntwo(screen, name2, turtlename2, dist_from_y_bellow, tam, ncasi, anchlarg_casi, memoramation, leftpairs):
+def turntwo(screen, name2, dist_from_y_bellow, tam, ncasi, anchlarg_casi, memoramation, leftpairs,pairstwo):
+
+    modifyname2=turtle.Turtle()
+    modifyname2.hideturtle()
+    modifyname2.pu()
+
     print("turn two")
-    turtlename2.color("green")
-    turtlename2.goto(tam//2-(dist_from_y_bellow*1.5),-tam // 2 - dist_from_y_bellow)
-    turtlename2.write(name2, align='right', font=('Arial', 25, 'normal'))
-    turtlename2.color("black")
+    modifyname2.color("green")
+    modifyname2.goto(tam//2-(dist_from_y_bellow*1.5),-tam // 2 - dist_from_y_bellow)
+    modifyname2.write(name2, align='right', font=('Arial', 25, 'normal'))
+    modifyname2.color("black")
+    valuesel1=0
+    valuesel2=0
 
     print(memoramation)
+    stopfrombutton=False
 
-    valuesel1,stopfrombutton,columne1,row1=valuesection1andsection2(screen,tam,anchlarg_casi,turtlename2,memoramation)
-    if stopfrombutton==False:
-        valuesel2,stopfrombutton,columne2,row2=valuesection1andsection2(screen,tam,anchlarg_casi,turtlename2,memoramation)
-        if valuesel1==valuesel2:
-            memoramation[columne1][row1]=0
-            memoramation[columne2][row2]=0
-            leftpairs-=1
-        else:
-            undo_multiple(turtlename2,10)
-    turtlename2.goto(tam//2-(dist_from_y_bellow*1.5),-tam // 2 - dist_from_y_bellow)
-    turtlename2.write(name2, align='right', font=('Arial', 25, 'normal'))
-    return leftpairs,stopfrombutton
+    while valuesel1 == 0 and stopfrombutton==False:
+        valuesel1,stopfrombutton,columne1,row1=valuesection1andsection2(screen,tam,anchlarg_casi,modifyname2,memoramation)
+
+    while valuesel2==0 and stopfrombutton==False:
+        valuesel2,stopfrombutton,columne2,row2=valuesection1andsection2(screen,tam,anchlarg_casi,modifyname2,memoramation)
+        if valuesel1 != 0:
+            if valuesel1==valuesel2:
+                memoramation[columne1][row1]=0
+                memoramation[columne2][row2]=0
+                leftpairs-=1
+                pairstwo+=1
+            else:
+                time.sleep(1)
+                modifyname2.clear()
+    modifyname2.goto(tam//2-(dist_from_y_bellow*1.5),-tam // 2 - dist_from_y_bellow)
+    modifyname2.write(name2, align='right', font=('Arial', 25, 'normal'))
+    return leftpairs,stopfrombutton,pairstwo
 
 def valuesection1andsection2(screen,tam,anchlarg_casi,turtlename,memoramation):
     def handle_click(x, y):
@@ -208,7 +234,7 @@ def valuesection1andsection2(screen,tam,anchlarg_casi,turtlename,memoramation):
         screen.update()  # Actualiza la pantalla para seguir capturando eventos
     
     x, y = xandy[0]
-    stopfrombutton = exit_button(x, y)
+    stopfrombutton = exit_button(x, y,screen)
 
     if -tam // 2 <= x <= tam // 2 and -tam // 2 <= y <= tam // 2 and not stopfrombutton:
         columne = int((x + tam // 2) // anchlarg_casi)
@@ -232,22 +258,22 @@ def valuesection1andsection2(screen,tam,anchlarg_casi,turtlename,memoramation):
             turtlename.goto(gotox, gotoy)
             turtlename.write(valueselection, align='center', font=('Arial', 15, 'normal'))
             screen.update()
-    print(f"Gotox: {gotox}, Gotoy: {gotoy}, Column: {columne}, Row: {row}")
+    else:
+        valueselection=0
+        columne=0
+        row=0
     return valueselection,stopfrombutton,columne,row
 
-def undo_multiple(turtle, times):
-    for i in range (times+1):
-        turtle.undo()
+def exit_button(x,y,screen):
 
-def exit_button(x,y):
     # Dimensiones del hitbox
     stopfrombutton=False
-    hitbox_width = 68
+    hitbox_width = 100
     hitbox_height = 40
     tam=600
 
     # Centro del hitbox
-    hitbox_center_x = tam // 2 + 10
+    hitbox_center_x = tam // 2 + 80
     hitbox_center_y = 0
     # Coordenadas de la esquina inferior izquierda del hitbox
     hitbox_x1 = hitbox_center_x - (hitbox_width / 2)
@@ -274,12 +300,17 @@ def main():
     totalpairs=int(ncasi//2)
     leftpairs=totalpairs
     stopfrombutton=False
+    pairsone=0
+    pairstwo=0
     while(stopfrombutton==False and leftpairs>0):
-        leftpairs,stopfrombutton=turnone(screen,name1,turtlename1,dist_from_y_bellow,tam,ncasi,anchlarg_casi,memoramation,leftpairs)
-        leftpairs,stopfrombutton=turntwo(screen,name2,turtlename2,dist_from_y_bellow,tam,ncasi,anchlarg_casi,memoramation,leftpairs)
-        print("Left pairs:",leftpairs)
-    turtle.mainloop()
-    
+        leftpairs,stopfrombutton,pairsone=turnone(screen,name1,dist_from_y_bellow,tam,ncasi,anchlarg_casi,memoramation,leftpairs,pairsone)
+        if stopfrombutton==False:
+            leftpairs,stopfrombutton,pairstwo=turntwo(screen,name2,dist_from_y_bellow,tam,ncasi,anchlarg_casi,memoramation,leftpairs,pairstwo)
+            print("Left pairs:",leftpairs)
+        elif leftpairs==0:
+            #display stats de la partida\
+            print()
+    screen.bye()
 main()
 
 """
