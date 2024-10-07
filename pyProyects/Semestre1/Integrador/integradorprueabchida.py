@@ -3,15 +3,16 @@
 #Proyecto Integrador
 
 import math as math
-import turtle as t
+import turtle
 import random
 
-def paint_begin(tam):
-    t.hideturtle()
-    t.bgcolor("tan")
-    t.tracer(0)
+def paint_begin(tam,screen):
 
-    turtletable=t.Turtle()
+    turtletable=turtle.Turtle()
+
+    turtletable.hideturtle()
+    screen.bgcolor("tan")
+    screen.tracer(0)
 
     turtletable.hideturtle()
     turtletable.pensize(10)
@@ -24,15 +25,15 @@ def paint_begin(tam):
     turtletable.goto(-tam // 2, tam // 2)
     turtletable.pu()
 
-    t.update()
+    screen.update()
 
-    strcasi=t.textinput("Numero de Casillas", "Easy, Normal or Hard? ")
+    strcasi=turtle.textinput("Numero de Casillas", "Easy, Normal or Hard? ")
     strcasi=strcasi.replace(" ","").lower()
 
     while strcasi is None or strcasi not in ("easy","normal","hard"):
-        strcasi=t.textinput("Numero de Casillas", "Easy, Normal or Hard? ")
+        strcasi=turtle.textinput("Numero de Casillas", "Easy, Normal or Hard? ")
         if strcasi is None:
-            t.bye()
+            turtle.bye()
 
     ncasi=0
     match strcasi:
@@ -46,7 +47,7 @@ def paint_begin(tam):
     anchlarg_casi=tam//int(math.sqrt(ncasi))
     counti=0
         
-    t.tracer(0)
+    screen.tracer(0)
     for i in range (-tam//2+anchlarg_casi,tam//2+1,anchlarg_casi):
         turtletable.goto(i-(anchlarg_casi//2),tam // 2 + 17)
         turtletable.write(counti, align='center', font=('Arial', 20, 'normal'))
@@ -67,12 +68,12 @@ def paint_begin(tam):
         turtletable.goto(-tam // 2,j)
         turtletable.pu()
         countj-=1
-    t.update()
+    screen.update()
 
     pairs=ncasi//2
     casi=[]
 
-    colortable=t.Turtle()
+    colortable=turtle.Turtle()
     colortable.hideturtle()
 
     for i in range(-tam // 2, tam//2,anchlarg_casi):
@@ -91,35 +92,35 @@ def paint_begin(tam):
                 colortable.forward(anchlarg_casi)
                 colortable.right(90)
             colortable.end_fill()
-            t.update()
+            screen.update()
 
     turtletable.goto(tam//2+40,0)
     turtletable.color("red")
     turtletable.write("EXIT", align='right', font=('Arial', 20, 'bold'))
-    t.update()
+    screen.update()
 
     return ncasi,anchlarg_casi
 
 def generales():
-    name1=t.textinput("Players", "Name of first player: ")
+    name1=turtle.textinput("Players", "Name of first player: ")
     
     while name1 is None or name1 == "":
-        name1=t.textinput("Invalid Blank Name, try again!", "Name of first player: ")
+        name1=turtle.textinput("Invalid Blank Name, try again!", "Name of first player: ")
         if name1 is None:
-            t.bye()
+            turtle.bye()
 
-    name2=t.textinput("Players", "Name of second player: ")
+    name2=turtle.textinput("Players", "Name of second player: ")
 
     while name2 is None or name2 == "":
-        name2=t.textinput("Invalid Blank Name, try again!", "Name of second player: ")
+        name2=turtle.textinput("Invalid Blank Name, try again!", "Name of second player: ")
         if name2 is None:
-            t.bye()
+            turtle.bye()
 
     return name1,name2
 
 def show_names(name1,name2,tam):
-    turtlename1=t.Turtle()
-    turtlename2=t.Turtle()
+    turtlename1=turtle.Turtle()
+    turtlename2=turtle.Turtle()
 
 
     turtlename1.pu()
@@ -152,74 +153,90 @@ def create_matrix(ncasi):
 
     return memoramation
 
-def turnone(name1,turtlename1,dist_from_y_bellow,tam,ncasi,anchlarg_casi,memoramation,leftpairs):
+def turnone(screen,name1,turtlename1,dist_from_y_bellow,tam,ncasi,anchlarg_casi,memoramation,leftpairs):
+    print("turn one")
     turtlename1.color("green")
     turtlename1.goto(-tam//2+(dist_from_y_bellow*1.5),-tam // 2 - dist_from_y_bellow)
     turtlename1.write(name1, align='left', font=('Arial', 25, 'normal'))
     stopfrombutton=False
-    selection1=0
-    selection2=0
     turtlename1.color("black")
-    while selection1==0:
-        selection1,valueselection1=t.onscreenclick(handle_click)
+    selectiontest=[]
+    xandy=[]
+    print(memoramation)
 
-        def handle_click(x,y):
-            if -tam//2 <= x <= tam//2 and -tam//2 <= y <= tam//2:
+    flagclick=[False]
 
-                columne = int((x + tam // 2) // anchlarg_casi)
-                row = int((y + tam // 2) // anchlarg_casi)
-                valueselection1=memoramation[columne][row]
-
-                if valueselection1!=0:
-                    gotox=(int(-tam//2))+(columne*anchlarg_casi)+(int(anchlarg_casi//2))
-                    gotoy=(int(tam//2))-(row*anchlarg_casi)-(int(anchlarg_casi//2))
-                    turtlename1.goto(gotox-int(anchlarg_casi//2),gotoy+int(anchlarg_casi//2)) #top left
-                    turtlename1.begin_fill()
-                    for k in range(4):
-                        turtlename1.fillcolor("grey")
-                        turtlename1.forward(anchlarg_casi)
-                        turtlename1.right(90)
-                        turtlename1.end_fill()
-                        turtlename1.goto(gotox,gotoy)
-                        turtlename1.write(valueselection1, align='left', font=('Arial', 15, 'normal'))
-                        t.update()
-                selection1=1
-            stopfrombutton=exit_button(x,y)
-            return selection1,valueselection1,stopfrombutton
+    def handle_click(x,y):
+        xandy.append((x,y))
+        flagclick[0]=True
+        print("Clic registrado:", xandy)
     
-    while selection2==0:
-        selection2,valueselection2=t.onscreenclick(handle_click)
+    def handle_click1():
+        print("handle click")
+        print(xandy)
+        x,y=xandy[0]
+        stopfrombutton=exit_button(x,y)
+        if -tam//2 <= x <= tam//2 and -tam//2 <= y <= tam//2 and stopfrombutton==False:
 
-        def handle_click(x,y):
-            if -tam//2 <= x <= tam//2 and -tam//2 <= y <= tam//2:
+            columne = int((x + tam // 2) // anchlarg_casi)
+            row = int((y + tam // 2) // anchlarg_casi)
+            valueselection1=memoramation[columne][row]
 
-                columne = int((x + tam // 2) // anchlarg_casi)
-                row = int((y + tam // 2) // anchlarg_casi)
-                valueselection2=memoramation[columne][row]
-
-                if valueselection2!=0:
-                    gotox=(int(-tam//2))+(columne*anchlarg_casi)+(int(anchlarg_casi//2))
-                    gotoy=(int(tam//2))-(row*anchlarg_casi)-(int(anchlarg_casi//2))
-                    turtlename1.goto(gotox-int(anchlarg_casi//2),gotoy+int(anchlarg_casi//2)) #top left
-                    turtlename1.begin_fill()
-                    for k in range(4):
-                        turtlename1.fillcolor("grey")
-                        turtlename1.forward(anchlarg_casi)
-                        turtlename1.right(90)
+            if valueselection1!=0:
+                print("if valueselection1!=0:")
+                gotox=(int(-tam//2))+(columne*anchlarg_casi)+(int(anchlarg_casi//2))
+                gotoy=(int(tam//2))-(row*anchlarg_casi)-(int(anchlarg_casi//2))
+                turtlename1.goto(gotox-int(anchlarg_casi//2),gotoy+int(anchlarg_casi//2)) #top left
+                turtlename1.begin_fill()
+                for k in range(4):
+                    turtlename1.fillcolor("grey")
+                    turtlename1.forward(anchlarg_casi)
+                    turtlename1.right(90)
                     turtlename1.end_fill()
                     turtlename1.goto(gotox,gotoy)
-                    turtlename1.write(valueselection2, align='left', font=('Arial', 15, 'normal'))
-                    t.update()
-                selection2=1
-            stopfrombutton=exit_button(x,y)
-            return selection2,valueselection2
+                    turtlename1.write(valueselection1, align='left', font=('Arial', 15, 'normal'))
+                    screen.update()
+            selectiontest.append(1)
+        return valueselection1,stopfrombutton
 
-    if valueselection1==valueselection2:
-        leftpairs-=1
-    else:
-        undo_multiple(turtlename1,2)
+    def handle_click2(x,y):
+        if -tam//2 <= x <= tam//2 and -tam//2 <= y <= tam//2:
 
-    turtlename1.undo()
+            columne = int((x + tam // 2) // anchlarg_casi)
+            row = int((y + tam // 2) // anchlarg_casi)
+            valueselection2=memoramation[columne][row]
+
+            if valueselection2!=0:
+                gotox=(int(-tam//2))+(columne*anchlarg_casi)+(int(anchlarg_casi//2))
+                gotoy=(int(tam//2))-(row*anchlarg_casi)-(int(anchlarg_casi//2))
+                turtlename1.goto(gotox-int(anchlarg_casi//2),gotoy+int(anchlarg_casi//2)) #top left
+                turtlename1.begin_fill()
+                for k in range(4):
+                    turtlename1.fillcolor("grey")
+                    turtlename1.forward(anchlarg_casi)
+                    turtlename1.right(90)
+                turtlename1.end_fill()
+                turtlename1.goto(gotox,gotoy)
+                turtlename1.write(valueselection2, align='left', font=('Arial', 15, 'normal'))
+                screen.update()
+            selectiontest.append(1)
+        return selectiontest,valueselection2
+    
+    while len(selectiontest)==0:
+        screen.onscreenclick(handle_click)
+        valueselection1,stopfrombutton=handle_click1()
+
+    while len(selectiontest)==1 and stopfrombutton==False:
+        valueselection2=turtle.onscreenclick(handle_click2)
+
+    if stopfrombutton==False:
+        if valueselection1==valueselection2:
+            leftpairs-=1
+
+        else:
+            undo_multiple(turtlename1,2)
+
+        turtlename1.undo()
     return leftpairs,stopfrombutton
 
 def turntwo(name2,turtlename2,dist_from_y_bellow,tam,ncasi,anchlarg_casi,memoramation):
@@ -237,6 +254,7 @@ def undo_multiple(turtle, times):
 
 def exit_button(x,y):
     # Dimensiones del hitbox
+    stopfrombutton=False
     hitbox_width = 68
     hitbox_height = 40
     tam=600
@@ -259,19 +277,21 @@ def exit_button(x,y):
     return stopfrombutton
 
 def main():
+    screen=turtle.Screen()
+    screen.title("Memorama de Eugenio M")
     name1,name2=generales()
     tam=600
-    ncasi,anchlarg_casi,=paint_begin(tam)
+    ncasi,anchlarg_casi,=paint_begin(tam,screen)
     memoramation=create_matrix(ncasi)
     dist_from_y_bellow,turtlename1,turtlename2=show_names(name1,name2,tam)
     totalpairs=int(ncasi//2)
     leftpairs=totalpairs
     stopfrombutton=False
-    while(not stopfrombutton or leftpairs!=0):
-        leftpairs,stopfrombutton=turnone(name1,turtlename1,dist_from_y_bellow,tam,ncasi,anchlarg_casi,memoramation,leftpairs)
-        turntwo(name2,turtlename2,dist_from_y_bellow,tam,ncasi,anchlarg_casi,memoramation,leftpairs)
+    while(stopfrombutton==False or leftpairs!=0):
+        leftpairs,stopfrombutton=turnone(screen,name1,turtlename1,dist_from_y_bellow,tam,ncasi,anchlarg_casi,memoramation,leftpairs)
+        #turntwo(name2,turtlename2,dist_from_y_bellow,tam,ncasi,anchlarg_casi,memoramation,leftpairs)
 
-    t.mainloop()
+    turtle.mainloop()
     
 main()
 
