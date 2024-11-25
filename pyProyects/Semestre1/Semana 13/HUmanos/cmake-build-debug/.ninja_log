@@ -1,0 +1,19 @@
+# ninja log v6
+4	750	7532982635075878	CMakeFiles/HUmanos.dir/main.cpp.obj	4480a0fb3c273a1e
+14	755	7532982635176137	CMakeFiles/HUmanos.dir/Persona.cpp.obj	9a00015002b75eba
+756	912	7532982642589864	HUmanos.exe	b66e08fd33757b3e
+9	560	7538993600026963	CMakeFiles/HUmanos.dir/main.cpp.obj	4480a0fb3c273a1e
+561	818	7538993605539546	HUmanos.exe	b66e08fd33757b3e
+8	556	7538996662057143	CMakeFiles/HUmanos.dir/main.cpp.obj	4480a0fb3c273a1e
+14	574	7538996662119007	CMakeFiles/HUmanos.dir/Persona.cpp.obj	9a00015002b75eba
+574	675	7538996667726022	HUmanos.exe	b66e08fd33757b3e
+11	544	7539001428659936	CMakeFiles/HUmanos.dir/Persona.cpp.obj	9a00015002b75eba
+10	488	7539005673344931	CMakeFiles/HUmanos.dir/Persona.cpp.obj	9a00015002b75eba
+11	505	7539006424368415	CMakeFiles/HUmanos.dir/Persona.cpp.obj	9a00015002b75eba
+6	503	7539006896440530	CMakeFiles/HUmanos.dir/main.cpp.obj	4480a0fb3c273a1e
+11	521	7539006896480531	CMakeFiles/HUmanos.dir/Persona.cpp.obj	9a00015002b75eba
+521	628	7539006901584633	HUmanos.exe	b66e08fd33757b3e
+6	466	7539007475330579	CMakeFiles/HUmanos.dir/main.cpp.obj	4480a0fb3c273a1e
+466	568	7539007479937297	HUmanos.exe	b66e08fd33757b3e
+7	446	7539007585620544	CMakeFiles/HUmanos.dir/main.cpp.obj	4480a0fb3c273a1e
+447	542	7539007590013715	HUmanos.exe	b66e08fd33757b3e

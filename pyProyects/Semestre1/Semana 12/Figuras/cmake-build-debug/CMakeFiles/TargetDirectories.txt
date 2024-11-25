@@ -1,0 +1,3 @@
+C:/Users/admin/Desktop/ProyectosProgra/pyProyects/Semestre1/Semana 12/Figuras/cmake-build-debug/CMakeFiles/Figuras.dir
+C:/Users/admin/Desktop/ProyectosProgra/pyProyects/Semestre1/Semana 12/Figuras/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/admin/Desktop/ProyectosProgra/pyProyects/Semestre1/Semana 12/Figuras/cmake-build-debug/CMakeFiles/rebuild_cache.dir

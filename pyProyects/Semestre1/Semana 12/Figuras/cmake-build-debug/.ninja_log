@@ -1,0 +1,7 @@
+# ninja log v6
+6	474	7524330333070248	CMakeFiles/Figuras.dir/main.cpp.obj	e769e4932f11e5e3
+15	90	7524327972950105	CMakeFiles/Figuras.dir/Rectangle.cpp.obj	14a518cb960d17b6
+4	12	7524327264285706	clean	78b189df0fa52169
+4	244	7524503023179170	build.ninja	e23a0bdef340a366
+475	592	7524330337746901	Figuras.exe	1cdf97f55d377a1e
+9	90	7524327972890739	CMakeFiles/Figuras.dir/Triangle.cpp.obj	b0bc757158be63be
