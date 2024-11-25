@@ -33,12 +33,16 @@ def paint_begin(TAM,screen):
     screen.update()
 
     str_casi=turtle.textinput("Numero de Casillas", "Easy(4x4), Normal(6x6) or Hard(8x8)? (type the word)")
-    str_casi=str_casi.replace(" ","").lower()
 
     while str_casi is None or str_casi not in ("easy","normal","hard"):
         str_casi=turtle.textinput("Numero de Casillas", "Easy(4x4), Normal(6x6) or Hard(8x8)? (type the word)")
+        str_casi=str_casi.replace(" ","")
+        str_casi=str_casi.lower()
         if str_casi is None:
             turtle.bye()
+
+    str_casi=str_casi.replace(" ","")
+    str_casi=str_casi.lower()
 
     ncasi=0
     match str_casi:
@@ -178,8 +182,14 @@ def turnone(screen, name1, dist_from_y_bellow, TAM, ncasi, anchlarg_casi, memora
         #Handles the click, and returns the columne and row of the selection
     
     while valuesel2==0 and stopfrombutton==False:
-            valuesel2,stopfrombutton,columne2,row2=valuesection1andsection2(screen,TAM,anchlarg_casi,modifyname1,memoramation)
-            #Handles the click, and returns the columne and row of the selection
+        valuesel2,stopfrombutton,columne2,row2=valuesection1andsection2(screen,TAM,anchlarg_casi,modifyname1,memoramation)
+        if columne1==columne2 and row1==row2:
+            print("Click repetido")
+            valuesel2=0
+        elif stopfrombutton==True:
+            print()
+        else:
+            #Handles the click, and returns the columne and row of the selection if the row and columne are different
             if valuesel1==valuesel2 and valuesel1!=0:
                 memoramation[columne1][row1]=0
                 memoramation[columne2][row2]=0
@@ -192,6 +202,7 @@ def turnone(screen, name1, dist_from_y_bellow, TAM, ncasi, anchlarg_casi, memora
             else:
                 time.sleep(1)
                 modifyname1.clear()
+
     modifyname1.goto(-TAM//2+(dist_from_y_bellow*1.5),-TAM // 2 - dist_from_y_bellow)
     modifyname1.write(name1, align='left', font=('Arial', 25, 'normal'))
     return leftpairs,stopfrombutton,pairsone,pairsrisen,bonus1
@@ -216,9 +227,12 @@ def turntwo(screen, name2, dist_from_y_bellow, TAM, ncasi, anchlarg_casi, memora
 
     while valuesel2==0 and stopfrombutton==False:
         valuesel2,stopfrombutton,columne2,row2=valuesection1andsection2(screen,TAM,anchlarg_casi,modifyname2,memoramation)
-        
-        if valuesel1 != 0:
-            if valuesel1==valuesel2:
+        if columne1==columne2 and row1==row2:
+            print("Click repetido")
+            valuesel2=0
+        else:
+            #Handles the click, and returns the columne and row of the selection if the row and columne are different
+            if valuesel1==valuesel2 and valuesel1!=0:
                 memoramation[columne1][row1]=0
                 memoramation[columne2][row2]=0
                 leftpairs-=1
@@ -273,19 +287,23 @@ def valuesection1andsection2(screen,TAM,anchlarg_casi,turtlename,memoramation):
             turtlename.goto(gotox, gotoy)
             turtlename.write(valueselection, align='center', font=('Arial', 15, 'normal'))
             screen.update()
+    elif stopfrombutton==True:
+        valueselection=0
+        columne=0
+        row=0
     else:
         valueselection=0
         columne=0
         row=0
+    flagclicked = [False] 
     return valueselection,stopfrombutton,columne,row
 
 def exit_button(x,y,screen):
-    stopfrombutton=False
-    hitbox_width = 100
+    hitbox_width = 80
     hitbox_height = 40
     TAM=600
 
-    hitbox_center_x = TAM // 2 + 55
+    hitbox_center_x = TAM // 2 + 40
     hitbox_center_y = 0
 
     hitbox_x1 = hitbox_center_x - (hitbox_width / 2)
@@ -297,6 +315,8 @@ def exit_button(x,y,screen):
     if hitbox_x1 <= x <= hitbox_x2 and hitbox_y1 <= y <= hitbox_y2:
         stopfrombutton=True
         print("Bye Bye!")
+    else:
+        stopfrombutton=False
 
     return stopfrombutton
 
@@ -423,13 +443,15 @@ def main():
         leftpairs,stopfrombutton,pairsone,pairsrisen,bonus1=turnone(screen,name1,dist_from_y_bellow,TAM,ncasi,anchlarg_casi,memoramation,leftpairs,pairsone,pairsrisen,multiplesof5,bonus1)
         #Handles the click for player 1, and updates the corresponding variables if the turned pair is correct
 
-        if stopfrombutton==False:
+        if stopfrombutton==False and leftpairs!=0:
             leftpairs,stopfrombutton,pairstwo,pairsrisen,bonus2=turntwo(screen,name2,dist_from_y_bellow,TAM,ncasi,anchlarg_casi,memoramation,leftpairs,pairstwo,pairsrisen,multiplesof5,bonus2)
             #Handles the click for player 2, and updates the corresponding variables if the turned pair is correct
             print("Left pairs: ",leftpairs)
             print("Pairs player 1: ",pairsone)
             print("Pairs player 2: ",pairstwo)
-
+        if stopfrombutton==True:
+            leftpairs==0
+            
     stopfrombutton2=show_stats(TAM,leftpairs,pairsone,pairstwo,screen,bonus1,bonus2) #Calculates and show the stats in the turtle screen
     if stopfrombutton2==True:
         screen.bye()
