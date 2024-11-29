@@ -1,0 +1,5 @@
+# ninja log v6
+2	540	7545623482955515	CMakeFiles/irasemita.dir/main.cpp.obj	e9afd53f03e546ee
+6	543	7545623482995514	CMakeFiles/irasemita.dir/SituacionProblema.cpp.obj	d833a815cada021f
+2	220	7545623865174938	build.ninja	a09f59da136736a9
+5	103	7545623865481079	irasemita.exe	f4b52feab500bce9

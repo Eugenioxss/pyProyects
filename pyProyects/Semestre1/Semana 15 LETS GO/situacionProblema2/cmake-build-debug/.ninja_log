@@ -1,0 +1,27 @@
+# ninja log v6
+6	714	7545583117555976	CMakeFiles/situacionProblema.dir/main.cpp.obj	58fc275f1f93f94e
+10	866	7545582124116515	CMakeFiles/situacionProblema.dir/CuentaBancaria.cpp.obj	3d9b8aec6e721aa2
+715	818	7545583124658333	situacionProblema.exe	16d3490f7162025c
+12	536	7545594250072439	CMakeFiles/situacionProblema.dir/CuentaBancaria.cpp.obj	72d40b8ab0ad5c97
+8	607	7545594249913654	CMakeFiles/situacionProblema.dir/main.cpp.obj	55241a3486c4a352
+607	718	7545594255920864	situacionProblema.exe	16d3490f7162025c
+13	582	7545596471185768	CMakeFiles/situacionProblema.dir/CuentaBancaria.cpp.obj	72d40b8ab0ad5c97
+7	494	7545597540556735	CMakeFiles/situacionProblema.dir/main.cpp.obj	55241a3486c4a352
+11	571	7545597540612136	CMakeFiles/situacionProblema.dir/CuentaBancaria.cpp.obj	72d40b8ab0ad5c97
+572	687	7545597546210865	situacionProblema.exe	16d3490f7162025c
+9	495	7545598458023322	CMakeFiles/situacionProblema.dir/main.cpp.obj	55241a3486c4a352
+496	602	7545598462891100	situacionProblema.exe	16d3490f7162025c
+10	668	7545599725878294	CMakeFiles/situacionProblema.dir/main.cpp.obj	55241a3486c4a352
+19	705	7545599725960983	CMakeFiles/situacionProblema.dir/CuentaBancaria.cpp.obj	72d40b8ab0ad5c97
+705	839	7545599732827232	situacionProblema.exe	16d3490f7162025c
+9	512	7545600464739619	CMakeFiles/situacionProblema.dir/main.cpp.obj	55241a3486c4a352
+512	623	7545600469776920	situacionProblema.exe	16d3490f7162025c
+7	487	7545602533068860	CMakeFiles/situacionProblema.dir/CuentaBancaria.cpp.obj	72d40b8ab0ad5c97
+488	594	7545602537981675	situacionProblema.exe	16d3490f7162025c
+7	474	7545603608541335	CMakeFiles/situacionProblema.dir/main.cpp.obj	55241a3486c4a352
+474	576	7545603613197448	situacionProblema.exe	16d3490f7162025c
+7	470	7545607461504680	CMakeFiles/situacionProblema.dir/main.cpp.obj	55241a3486c4a352
+471	591	7545607466142438	situacionProblema.exe	16d3490f7162025c
+7	466	7545615912997950	CMakeFiles/situacionProblema.dir/main.cpp.obj	55241a3486c4a352
+12	539	7545615913043091	CMakeFiles/situacionProblema.dir/CuentaBancaria.cpp.obj	72d40b8ab0ad5c97
+539	646	7545615918313613	situacionProblema.exe	16d3490f7162025c
