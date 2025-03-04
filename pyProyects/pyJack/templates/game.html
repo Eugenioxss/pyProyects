@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Juego de Blackjack</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Sección fija para mostrar la cuenta y apuesta */
+        .counter {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: #f8f9fa;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .card-buttons button {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="counter">
+    <p><strong>Cuenta:</strong> {{ running_count }}</p>
+    <p><strong>True Count:</strong> {{ true_count }}</p>
+    <p><strong>Apuesta sugerida:</strong> ${{ current_bet }}</p>
+</div>
+<div class="container mt-5">
+    <h1>Juego de Blackjack</h1>
+    
+    {% if suggestion %}
+    <div class="alert alert-info">
+        <strong>Jugada sugerida:</strong> {{ suggestion }}
+    </div>
+    {% endif %}
+    
+    <div class="row">
+        <!-- Sección del Dealer -->
+        <div class="col-md-6">
+            <h2>Cartas del Dealer</h2>
+            <div class="mb-3">
+                {% for card in dealer_cards %}
+                    <button class="btn btn-secondary">{{ card }}</button>
+                {% endfor %}
+            </div>
+            <form method="post" action="{{ url_for('add_card') }}">
+                <input type="hidden" name="role" value="dealer">
+                <div class="card-buttons">
+                    {% for c in ['2','3','4','5','6','7','8','9','10','J','Q','K','A'] %}
+                        <button type="submit" name="card" value="{{ c }}" class="btn btn-outline-primary">{{ c }}</button>
+                    {% endfor %}
+                </div>
+            </form>
+        </div>
+        <!-- Sección del Jugador: Múltiples manos -->
+        <div class="col-md-6">
+            <h2>Mis Manos</h2>
+            {% for hand in player_hands %}
+            <div class="card mb-3 {% if loop.index0 == active_hand %}border-primary{% endif %}">
+                <div class="card-header">
+                    Mano {{ loop.index }} {% if loop.index0 == active_hand %}(Activa){% endif %}
+                </div>
+                <div class="card-body">
+                    {% for card in hand %}
+                        <button class="btn btn-secondary">{{ card }}</button>
+                    {% endfor %}
+                </div>
+                <!-- Botón para agregar carta a esta mano -->
+                <form method="post" action="{{ url_for('add_card') }}">
+                    <input type="hidden" name="role" value="player">
+                    <input type="hidden" name="hand_index" value="{{ loop.index0 }}">
+                    <div class="card-buttons">
+                        {% for c in ['2','3','4','5','6','7','8','9','10','J','Q','K','A'] %}
+                            <button type="submit" name="card" value="{{ c }}" class="btn btn-outline-success">{{ c }}</button>
+                        {% endfor %}
+                    </div>
+                </form>
+            </div>
+            {% endfor %}
+            <!-- Botón para realizar split en la mano activa -->
+            <form method="post" action="{{ url_for('split') }}">
+                <button type="submit" class="btn btn-info">Hacer Split en la Mano Activa</button>
+            </form>
+            <!-- Botón para cambiar a la siguiente mano -->
+            <form method="post" action="{{ url_for('next_hand') }}">
+                <button type="submit" class="btn btn-warning">Siguiente Mano</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="mt-3">
+        <form method="post" action="{{ url_for('confirm') }}" style="display: inline-block;">
+            <button type="submit" class="btn btn-warning">Confirmar Jugada</button>
+        </form>
+        <form method="post" action="{{ url_for('reset') }}" style="display: inline-block;">
+            <button type="submit" class="btn btn-danger">Nueva Mano</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

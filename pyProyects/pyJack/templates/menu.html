@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Configuración de la Mesa</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Configuración de la Mesa</h1>
+    <form method="post">
+        <div class="form-group">
+            <label for="min_bet">Apuesta Mínima:</label>
+            <input type="number" class="form-control" id="min_bet" name="min_bet" required>
+        </div>
+        <div class="form-group">
+            <label for="max_bet">Apuesta Máxima:</label>
+            <input type="number" class="form-control" id="max_bet" name="max_bet" required>
+        </div>
+        <div class="form-group">
+            <label for="decks">Número de Mazos:</label>
+            <input type="number" class="form-control" id="decks" name="decks" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Comenzar</button>
+    </form>
+</div>
+</body>
+</html>
