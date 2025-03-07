@@ -15,14 +15,13 @@ def main():
     print(arrayBegin)
     """
 
-    #puntos
+    # Puntos
     arrayPoints = np.array([
-        (0.55, -1.1),
-        (1.3, -1.4),
-        (3, -1.8),
-        (2.5, -1.8),
-        (5.5, -1.5),
-        (4, -1.7)
+        (0.34, -0.63),
+        (0.95, -1.4),
+        (2.53, -1.81),
+        (4.38, -1.57),
+        (4.94, -1.398)
     ])
 
     # y = a0 + a1x + a2x2 + a3x3 + a4x4 + a5x5
@@ -39,7 +38,7 @@ def main():
     A = np.matrix(a)
     coefficients = np.linalg.inv(A) @ b
     print(np.flip(coefficients))
-
+    #Se voltean para que aparezcan de mayor grado a menor grado
 
 
 
