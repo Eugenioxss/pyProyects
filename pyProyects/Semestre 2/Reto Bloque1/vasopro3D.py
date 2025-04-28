@@ -5,13 +5,13 @@ import numpy as np
 
 n = 501 # Number of points to plot and complete domain: [0, 9.5]
 x1 = np.linspace(0, 9.5, n)
-y1 = .00095*x1**4 - .0285*x1**3 + .2669*x1**2 - .7474*x1 + 1.6      # Original shape
+y1 = 0.00025*x1**4 - 0.012*x1**3 + 0.2*x1**2 - 1.291*x1 - 2.06      # Original shape
 
 #Elements considered for the inner face of the glass
 base = .5
 thickness = .3
 x2 = x1[x1>=base]
-y2 = .00095*x2**4 - .0285*x2**3 + .2669*x2**2 - .7474*x2 + 1.6 - thickness
+y2 = 0.00025*x2**4 - 0.012*x2**3 + 0.2*x2**2 - 1.291*x2 - 2.06 - thickness
 
 # Plotting positive values
 plt.plot(x1, y1, color='r')
