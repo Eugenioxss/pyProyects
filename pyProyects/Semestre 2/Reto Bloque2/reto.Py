@@ -2,7 +2,6 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 
-
 def main():
     #Static Variables
     g = 9.81 #m/s2
@@ -16,6 +15,13 @@ def main():
     chargesList = np.empty(n)
 
     e = 1.602e-19
+
+
+    #Visual Stuff
+    time_list     = []
+    position_list = []
+    velocity_list = []
+
 
     for i in range (0,n):
 
@@ -32,94 +38,101 @@ def main():
         mDrop = vDrop * oilD #Drop's mass
         fgDrop = mDrop * g #Gravitational Force ejerced by the Oil Drop
         bfDrop = vDrop * airD * g #Bouyancy Force
-        netForce = fgDrop - bfDrop
-        vMax = netForce / (6 * np.pi * airV * r)  # Terminal Velocity
+        electricCamp = U / platesD         # Electric field
+
         
-        electricCamp = U / platesD
-        qDrop = netForce / electricCamp
-        k = np.random.randint(1, 10)  # Calculates a random multiple of e between 1 and 9
-        qDrop_emultiple = k * e #Assigns the multiple
+        k = np.random.randint(1, 10)  #Calculates a random multiple of e between 1 and 9
+        q_true = k * e  # Assigns the multiple
 
-        chargesList[i] = qDrop_emultiple
-        print(i)
+        #Simulates until terminal velocity
+        current_velocity = 0.0
+        previous_velocity = 0.0
+        current_height = platesD / 2
+        t = 0.0
+        dt = 1e-5
+        max_time = 2.0
 
-        # Only for the first droplet
-        if i == 0:
-            time_list = []
-            position_list = []
-            velocity_list = []
+        while t < max_time:
+             #Forces
+            electricForce = q_true * electricCamp
+            drag_force    = 6 * np.pi * airV * r * current_velocity
+            net_force     = fgDrop - bfDrop + electricForce - np.sign(current_velocity)*abs(drag_force)
+            acceleration  = net_force / mDrop
 
-            t = 0
-            dt = 0.00001
-            max_time = 2
+            #Update velocity, position, time
+            current_velocity += acceleration * dt
+            current_height   += current_velocity * dt
+            t                += dt
 
-            current_height = platesD / 2
-            current_velocity = vMax
-            previous_velocity = current_velocity
-
-            while current_height > -platesD / 2 and t < max_time:
-                electricForce = qDrop_emultiple * electricCamp
-                drag_force = 6 * np.pi * airV * r * current_velocity
-                net_force_total = fgDrop - bfDrop + electricForce - np.sign(current_velocity) * abs(drag_force)
-                acceleration = net_force_total / mDrop
-
-                current_velocity += acceleration * dt
-                current_height += current_velocity * dt
-
+            #Visual stuff of first particle
+            if i == 0:
                 time_list.append(t)
                 position_list.append(current_height)
                 velocity_list.append(current_velocity)
 
-                if abs(acceleration) < 1e-6 and abs(current_velocity - previous_velocity) < 1e-6:
-                    break
+            #Criteria if the acceleration is minimal, then we are at terminal velocity.
+            if abs(acceleration) < 1e-6 and abs(current_velocity-previous_velocity) < 1e-6:
+                break
+            previous_velocity = current_velocity
 
-                previous_velocity = current_velocity
-                t += dt
+        v_t = current_velocity  # Terminal velocity magnitude
+
+        # Estimate the charge by inverting the dynamic equilibrium:
+        #    0 = Fg − Fb + q E − 6π η r v_t
+        #    → q_est = [6π η r v_t − (Fg − Fb)] / E
+        drag_term = 6 * np.pi * airV * r * v_t
+        q_est = (drag_term - (fgDrop - bfDrop)) / electricCamp
+
+        # Saves the estimated charge
+        chargesList[i] = q_est
+        print(f"Sim {i}: q_true = {q_true:.2e}, q_est = {q_est:.2e}")
+        print(i)
 
 
 
-    nonzero_charges = chargesList[chargesList != 0] #If generated drops with charge 0
+    nonzero_charges = chargesList[chargesList != 0] #If drops are generated with charge 0
     sorted_charges = np.sort(nonzero_charges) #Lower to higher
     differences = np.abs(np.diff(sorted_charges)) #Difference between consecutives charges
 
-    differences = differences[differences > 1e-21] #Gets rid of non-useful data
+    differences = differences[differences > 1e-19] #Gets rid of non-useful data
 
-    e_estimated = np.min(differences) #The difference will be in multiples of e (1e, 2e, 3e, 4e), so we just want the 1e difference, which is the lowest
+    e_estimated = np.min(differences) #The difference will be in multiples of e (1e, 2e, 3e, 4e), so we just want the e difference, which is the lowest
 
     qdropcharges = np.mean(nonzero_charges)
-    print("Average charge of droplets without zeros: ", qdropcharges, " C") #A bit useless
+    print("Average charge of droplets without zeros: ", qdropcharges, " C") #A bit useless, but useful for debug
 
     print("Estimated charge of e: ", e_estimated)
 
 
+
     #Visual Stuff
-    time_array = np.array(time_list)
+    time_array     = np.array(time_list)
     position_array = np.array(position_list)
-    velocity_array = np.array(velocity_list)
+    velocity_array = np.array(velocity_list) 
 
-    # 1) Calcula desplazamiento relativo arrancando en cero:
-    rel_disp = position_array - position_array[0]
+    #Calculate relative displacement starting from zero:
+    rel_disp    = position_array - position_array[0]
+    #Convert to micrometers for better visibility
+    rel_disp_um = rel_disp * 1e6  #1 m = 1e6 micrometers
 
-    # 2) (Opcional) pasa a micrómetros para verlo más claro:
-    rel_disp_um = rel_disp * 1e6  # 1 m = 1e6 μm
-
-    # Gráfica desplazamiento vs tiempo sin las placas:
+    #Plot displacement vs time
     plt.figure()
-    plt.plot(time_array, rel_disp_um, label='Desplazamiento de la gota')
-    plt.title('Desplazamiento vs Tiempo')
-    plt.xlabel('Tiempo (s)')
-    plt.ylabel('Desplazamiento (μm)')
-    plt.grid(True)
-    plt.legend()
+    plt.plot(time_array, rel_disp_um, label='Drop Displacement')  #Plot the displacement
+    plt.title('Displacement vs Time')  #Title for plot
+    plt.xlabel('Time (s)')  #Label for x-axis
+    plt.ylabel('Displacement (μm)')  #Label for y-axis
+    plt.grid(True)  #Add grid to plot
+    plt.legend()  #Add legend to plot
 
-    # Gráfica velocidad vs tiempo
+    #Plot velocity vs time
     plt.figure()
-    plt.plot(time_array, velocity_array)
-    plt.title('Velocidad vs Tiempo (caída)')
-    plt.xlabel('Tiempo (s)')
-    plt.ylabel('Velocidad (m/s)')
-    plt.grid(True)
+    plt.plot(time_array, velocity_array)  #Plot the velocity
+    plt.title('Velocity vs Time (fall)')  #Title for the plot
+    plt.xlabel('Time (s)')  # Label for x-axis
+    plt.ylabel('Velocity (m/s)')  # Label for y-axis
+    plt.grid(True)  # Add grid to plot
 
-    plt.show()
+    plt.show()  # Display the plots
+
 
 main()
